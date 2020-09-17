@@ -114,12 +114,12 @@ def pgcli_bindings(pgcli):
         _logger.debug("Detected alt-enter key.")
         event.app.current_buffer.insert_text("\n")
 
-    @kb.add("c-p", filter=~has_selection)
+    @kb.add("c-p", filter=~has_selection & ~has_completions)
     def _(event):
         """Move up in history."""
         event.current_buffer.history_backward(count=event.arg)
 
-    @kb.add("c-n", filter=~has_selection)
+    @kb.add("c-n", filter=~has_selection & ~has_completions)
     def _(event):
         """Move down in history."""
         event.current_buffer.history_forward(count=event.arg)

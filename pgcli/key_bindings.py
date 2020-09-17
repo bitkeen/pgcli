@@ -1,11 +1,16 @@
 import logging
 from prompt_toolkit.enums import EditingMode
 from prompt_toolkit.key_binding import KeyBindings
+from prompt_toolkit.key_binding.bindings.named_commands import (
+    beginning_of_line,
+    end_of_line,
+)
 from prompt_toolkit.filters import (
     completion_is_selected,
     is_searching,
     has_completions,
     has_selection,
+    vi_insert_mode,
     vi_mode,
 )
 
@@ -123,5 +128,15 @@ def pgcli_bindings(pgcli):
     def _(event):
         """Move down in history."""
         event.current_buffer.history_forward(count=event.arg)
+
+    @kb.add("c-a", filter=vi_insert_mode)
+    def _(event):
+        """Go to beginning of line."""
+        beginning_of_line(event)
+
+    @kb.add("c-e", filter=vi_insert_mode)
+    def _(event):
+        """Go to end of line."""
+        end_of_line(event)
 
     return kb
